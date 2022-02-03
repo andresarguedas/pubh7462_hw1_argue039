@@ -1,0 +1,95 @@
+---
+title: "PubH7462 - Homework 1"
+author: "Andrés Arguedas"
+date: "2/2/2022"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include = FALSE}
+# Load all the good stuff
+library(tidyverse)
+
+# Working directory for .RMD, figure output in markdown, and messages/warnings
+# output
+knitr::opts_knit$set(echo = TRUE,
+                     root.dir = rprojroot::find_rstudio_root_file(),
+                     message = FALSE,
+                     warning = FALSE,
+                     fig.width = 6,
+                     out.width = "70%",
+                     fig.align = "center",
+                     cache = FALSE)
+
+# Set Theme for ggplot2 to `theme_bw()`, as well as centering the title and
+# legend at bottom by default
+theme_set(theme_bw())
+theme_update(plot.title = element_text(hjust = 0.5), 
+             legend.position = "bottom")
+
+# Set the color palette of ggplot to a colorblind friendly one
+options(ggplot2.discrete.colour = c("#E69F00", "#56B4E9", "#009E73","#F0E442", 
+                                    "#0072B2", "#D55E00", "#CC79A7", "#000000"))
+
+# Set Scientific notation output and decimal places for knitr
+options(scipen = 999)
+options(digits = 4)
+```
+
+# Problem 2.1
+
+```{r simulating-data}
+sim_data <- tibble(
+  x = rnorm(n = 1000, mean = 0, sd = 1),
+  y = rnorm(n = 1000, mean = 1, sd = 2),
+  sum_indicator = ifelse(x + y > 0.5, TRUE, FALSE)) %>% 
+  mutate(indicator_TRUE = factor(sum_indicator,
+                                 labels = c("No", "Yes")),
+         indicator_TRUE = fct_relevel(indicator_TRUE, "Yes", "No"))
+```
+
+
+```{r plot-of-simulated-data}
+sim_data %>% ggplot(aes(x = x, y = y, col = indicator_TRUE)) +
+  geom_point() +
+  labs(title = "",
+       x = "",
+       y = "",
+       col = "X + Y > 0.5")
+```
+
+# Problem 2.2
+
+To start, we need to load the data into R
+
+```{r load-penguins}
+# Read data with relative path
+penguin.df <- read_rds("./data/penguin.RDS")
+```
+
+## Data Description
+
+- Observations: `r nrow(penguin.df)`
+- Variables: `r ncol(penguin.df)`
+- Mean flipper length: `r mean(penguin.df$flipper_length_mm, na.rm = TRUE)` mm
+- Mean bill length: `r mean(penguin.df$bill_length_mm, na.rm = TRUE)` mm
+
+## Visualization
+
+```{r flipper-and-bill-length-by-species}
+penguin.df %>% ggplot(aes(y = flipper_length_mm, x = bill_length_mm, col = species)) +
+  geom_point() +
+  labs(title = "",
+       x = "",
+       y = "")
+```
+
+```{r flipper-and-bill-length-by-species-and-sex}
+penguin.df %>% ggplot(aes(y = flipper_length_mm, x = bill_length_mm, col = species)) +
+  facet_wrap(~ sex) +
+  geom_point() +
+  labs(title = "",
+       x = "",
+       y = "")
+```
