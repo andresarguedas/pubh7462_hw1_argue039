@@ -36,13 +36,14 @@ sim_data <- tibble(
   # 2 with sample size 1000
   y = rnorm(n = 1000, mean = 1, sd = 2),
   # Use the `ifelse()` function to create a logical variable if x+y>0.5
-  sum_indicator = ifelse(x + y > 0.5, TRUE, FALSE)) %>% 
+  sum_indicator = ifelse(x + y > 0.5, TRUE, FALSE)
+) %>%
   mutate(
     # Create a new categorical variable based on the `sum_indicator` variable
-    indicator_TRUE = factor(sum_indicator,
-                            labels = c("No", "Yes")),
+    indicator_TRUE = factor(sum_indicator, labels = c("No", "Yes")),
     # Reorder the factor levels so that `Yes` comes before `No`
-    indicator_TRUE = fct_relevel(indicator_TRUE, "Yes", "No"))
+    indicator_TRUE = fct_relevel(indicator_TRUE, "Yes", "No")
+  )
 ```
 
 Having created the simulated data, as well as the other required
@@ -54,22 +55,23 @@ scatterplot is presented as the following figure:
 ``` r
 # Create a scatter plot of `x` against `y`, with coloring depending on if
 # $x+y>0.5$ or not, based on the simulated data from `sim_data`
-sim_data %>% 
+sim_data %>%
   # Specify the required aesthetic options in the `ggplot()` function
   ggplot(aes(x = x, y = y, col = indicator_TRUE)) +
   # Add points to the plot
   geom_point() +
   # Add titles to the plot, axes, and legends
   labs(
-  title = "A random sample of size 1000, from an independent bivariate normal 
-  distribution, one with mean 0 and standard deviation 1, and the other 
-  with mean 1 and standard deviation 2, colored according to if the 
-  sum of a point is greater than 0.5",
-  # The `expression()` function allows us to introduce simple math terms into
-  # text to be rendered directly by R into the plots
-  x = expression(X %~% N(0,1)),
-  y = expression(Y %~% N(1,2)),
-  col = expression(X + Y > 0.5))
+    title = "A random sample of size 1000, from an independent bivariate normal 
+    distribution, one with mean 0 and standard deviation 1, and the 
+    other with mean 1 and standard deviation 2, colored according 
+    to if the sum of a point is greater than 0.5",
+    # The `expression()` function allows us to introduce simple math terms into
+    # text to be rendered directly by R into the plots
+    x = expression(X %~% N(0, 1)),
+    y = expression(Y %~% N(1, 2)),
+    col = expression(X + Y > 0.5)
+  )
 ```
 
 ![](homework1-andres-arguedas_files/figure-gfm/plot-of-simulated-data-1.png)<!-- -->
@@ -134,18 +136,20 @@ following figure:
 
 ``` r
 # Create a scatterplot of penguin's bill and flipper length, by species
-penguin.df %>% 
+penguin.df %>%
   # Define the variables in the x and y axes, as well as the variable with which
   # to color the different points
   ggplot(aes(y = flipper_length_mm, x = bill_length_mm, col = species)) +
   # Add points to the plot
   geom_point() +
   # Add titles to the plot, axes, and legend
-  labs(title = "Penguin's bill length by flipper length, separated by species, 
-       Palmer Archipelago, Antartica, from 2007-2009",
-       x = "Bill length (mm)",
-       y = "Flipper length (mm)",
-       col = "Species")
+  labs(
+    title = "Penguin's bill length by flipper length, separated by species, 
+    Palmer Archipelago, Antartica, from 2007-2009",
+    x = "Bill length (mm)",
+    y = "Flipper length (mm)",
+    col = "Species"
+  )
 ```
 
 ![](homework1-andres-arguedas_files/figure-gfm/flipper-and-bill-length-by-species-1.png)<!-- -->
@@ -163,28 +167,30 @@ presented in the following figure:
 
 ``` r
 # Create a scatterplot of penguin's bill and flipper length, by species and sex
-penguin.df %>% 
+penguin.df %>%
   # Drop any observation for which the penguin's sex was not recorded
-  filter(!is.na(sex)) %>% 
+  filter(!is.na(sex)) %>%
   # Rename the `sex` variable to `Sex` for ease of use when labelling the plot
-  rename(Sex = sex) %>% 
+  rename(Sex = sex) %>%
   # Change the names of the labels for the categories of the `Sex` variable so
   # it's easier to use in the plot
-  mutate(Sex = recode(Sex, female = "Female", male = "Male")) %>% 
+  mutate(Sex = recode(Sex, female = "Female", male = "Male")) %>%
   # Add the corresponding variables in the x and y-axis, as well as the variable
   # to be used for coloring the different observations
   ggplot(aes(y = flipper_length_mm, x = bill_length_mm, col = species)) +
   # Separate the plot further according to the `Sex` variable, and use both the
   # variable and category names to label the corresponding facets
-  facet_grid(~ Sex, labeller = label_both) +
+  facet_grid(~Sex, labeller = label_both) +
   # Add points to the plot
   geom_point() +
   # Add titles to the plot, axes, and legend
-  labs(title = "Penguin's bill length by flipper length, separated by species and sex,
-       Palmer Archipelago, Antartica, from 2007-2009",
-       x = "Bill length (mm)",
-       y = "Flipper length (mm)",
-       col = "Species")
+  labs(
+    title = "Penguin's bill length by flipper length, separated by species and sex,
+    Palmer Archipelago, Antartica, from 2007-2009",
+    x = "Bill length (mm)",
+    y = "Flipper length (mm)",
+    col = "Species"
+  )
 ```
 
 ![](homework1-andres-arguedas_files/figure-gfm/flipper-and-bill-length-by-species-and-sex-1.png)<!-- -->
