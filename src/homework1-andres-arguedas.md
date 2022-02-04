@@ -15,10 +15,10 @@ In this case, we want to create a sample of size *n* = 1000 from an
 independent bivariate normal distribution, say
 (*X*<sub>1</sub>,*Y*<sub>1</sub>), …, (*X*<sub>*n*</sub>), (*Y*<sub>*n*</sub>)
 such that *X*<sub>*i*</sub> ∼ 𝒩(0,1) and *Y*<sub>*i*</sub> ∼ 𝒩(1,2). We
-can simulate each of *X*<sub>1</sub> and *Y*<sub>*i*</sub> independently
-by using the `rnorm()` function, and specifying argument `n` for the
-sample size, `mean` for the mean, and `sd` for the standard deviation.
-Additionally, we will create an indicator variable, called
+can simulate each of *X*<sub>*i*</sub> and *Y*<sub>*i*</sub>
+independently by using the `rnorm()` function, and specifying argument
+`n` for the sample size, `mean` for the mean, and `sd` for the standard
+deviation. Additionally, we will create an indicator variable, called
 `sum_indicator`, which will be `TRUE` if *X* + *Y* \> 0.5 and `FALSE`
 otherwise, and then convert this to a categorical variable called
 `indicator_TRUE`. Finally, we can put this all together in a tibble
@@ -54,7 +54,7 @@ scatterplot is presented as the following figure:
 
 ``` r
 # Create a scatter plot of `x` against `y`, with coloring depending on if
-# $x+y>0.5$ or not, based on the simulated data from `sim_data`
+# $X+Y>0.5$ or not, based on the simulated data from `sim_data`
 sim_data %>%
   # Specify the required aesthetic options in the `ggplot()` function
   ggplot(aes(x = x, y = y, col = indicator_TRUE)) +
@@ -156,14 +156,14 @@ penguin.df %>%
 
 Overall, there seems to be a relatively clear separation between the
 three species of penguins according to both their flipper and bill
-lengths. Specifically, Gentoo penguins seem to have the highest
+lengths. Specifically, Gentoo penguins seem to have the longest
 flippers, overall, while chinstrap penguin’s have longer bills than
-adelies. There are some penguins which seem to be smaller than the
-others in their species, and thus this separation is not exactly
-perfect, but it seems to be relatively good with only these two
-variables. Nevertheless, there might be further differences if we
-additionally separate the penguins according to their sex, which is
-presented in the following figure:
+adelies. There are some penguins which seem to be relatively smaller
+than others in their species, and thus this separation is not exactly
+perfect, but it seems to be good for only using these two variables.
+Nevertheless, there might be further differences if we additionally
+separate the penguins according to their sex, which is presented in the
+following figure:
 
 ``` r
 # Create a scatterplot of penguin's bill and flipper length, by species and sex
